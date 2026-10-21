@@ -1,0 +1,8 @@
+{
+  "BASEINFO": {
+    "FROM": [
+      "ZSRT_STATUS"
+    ],
+    "ASSOCIATED": []
+  }
+}

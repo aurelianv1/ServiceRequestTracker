@@ -1,0 +1,12 @@
+{
+  "BASEINFO": {
+    "FROM": [
+      "ZSRT_REQUEST"
+    ],
+    "ASSOCIATED": [
+      "ZI_SRT_PRIORITY_VH",
+      "ZI_SRT_STATUS_VH",
+      "ZR_SRT_COMMENT"
+    ]
+  }
+}

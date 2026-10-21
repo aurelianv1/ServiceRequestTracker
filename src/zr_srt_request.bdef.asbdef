@@ -1,0 +1,96 @@
+managed implementation in class zbp_r_srt_request unique;
+strict ( 2 );
+with draft;
+
+define behavior for ZR_SRT_Request alias Request
+persistent table zsrt_request
+draft table zsrt_d_request
+lock master
+total etag LastChangedAt
+authorization master ( global, instance )
+etag master LocalLastChangedAt
+{
+  create;
+  update;
+  delete;
+  association _Comment { create ( authorization : update ); with draft; }
+
+  field ( numbering : managed, readonly ) RequestUUID;
+  field ( readonly ) RequestID, Priority, Status, CreatedBy, CreatedAt, LastChangedBy, LastChangedAt, LocalLastChangedAt;
+  field ( mandatory ) Title, DueDate;
+
+  action ( features : instance, authorization : update ) closeRequest result [1] $self;
+  action ( features : instance, authorization : update ) reopenRequest result [1] $self;
+  action ( features : instance, authorization : update ) escalateRequest result [1] $self;
+  action ( features : instance, authorization : update ) assignToMe result [1] $self;
+
+  determination setRequestID on save { create; }
+  determination determineStatus on modify { create; field AssignedTo; }
+  determination calculatePriority on modify { create; field DueDate; }
+
+  validation validateTitle on save { create; field Title; }
+  validation validateDueDate on save { create; field DueDate; }
+
+  side effects
+  {
+    field DueDate affects field Priority;
+    field AssignedTo affects field Status;
+  }
+
+  draft action Resume;
+  draft action ( features : instance ) Edit;
+  draft action Activate optimized;
+  draft action Discard;
+
+  draft determine action Prepare
+  {
+    validation validateTitle;
+    validation validateDueDate;
+    validation Comment~validateCommentText;
+  }
+
+  mapping for zsrt_request
+    {
+      RequestUUID        = request_uuid;
+      RequestID          = request_id;
+      Title              = title;
+      Description        = description;
+      Priority           = priority;
+      Status             = status;
+      AssignedTo         = assigned_to;
+      DueDate            = due_date;
+      CreatedBy          = created_by;
+      CreatedAt          = created_at;
+      LastChangedBy      = last_changed_by;
+      LastChangedAt      = last_changed_at;
+      LocalLastChangedAt = local_last_changed_at;
+    }
+}
+
+define behavior for ZR_SRT_Comment alias Comment
+persistent table zsrt_comment
+draft table zsrt_d_comment
+lock dependent by _Request
+authorization dependent by _Request
+etag master LocalLastChangedAt
+{
+  update;
+  delete;
+  association _Request { with draft; }
+
+  field ( numbering : managed, readonly ) CommentUUID;
+  field ( readonly ) RequestUUID, CreatedBy, CreatedAt, LocalLastChangedAt;
+  field ( mandatory ) CommentText;
+
+  validation validateCommentText on save { create; field CommentText; }
+
+  mapping for zsrt_comment
+    {
+      CommentUUID        = comment_uuid;
+      RequestUUID        = request_uuid;
+      CommentText        = comment_text;
+      CreatedBy          = created_by;
+      CreatedAt          = created_at;
+      LocalLastChangedAt = local_last_changed_at;
+    }
+}

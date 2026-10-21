@@ -1,0 +1,8 @@
+@EndUserText.label: 'Service Request Tracker - UI service'
+@ObjectModel.leadingEntity.name: 'ZC_SRT_Request'
+define service ZUI_SRT_REQUEST {
+  expose ZC_SRT_Request     as ServiceRequest;
+  expose ZC_SRT_Comment     as Comment;
+  expose ZI_SRT_Priority_VH as PriorityVH;
+  expose ZI_SRT_Status_VH   as StatusVH;
+}

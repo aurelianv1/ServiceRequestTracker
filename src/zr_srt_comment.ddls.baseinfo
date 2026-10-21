@@ -1,0 +1,10 @@
+{
+  "BASEINFO": {
+    "FROM": [
+      "ZSRT_COMMENT"
+    ],
+    "ASSOCIATED": [
+      "ZR_SRT_REQUEST"
+    ]
+  }
+}

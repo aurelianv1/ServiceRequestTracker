@@ -1,0 +1,10 @@
+@EndUserText.label: 'Access Control for ZC_SRT_Request'
+@MappingRole: true
+define role ZC_SRT_Request {
+  grant
+    select
+      on
+        ZC_SRT_Request
+          where
+            inheriting conditions from entity ZR_SRT_Request default true;
+}

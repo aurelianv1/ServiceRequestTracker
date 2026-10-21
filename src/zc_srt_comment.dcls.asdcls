@@ -1,0 +1,10 @@
+@EndUserText.label: 'Access Control for ZC_SRT_Comment'
+@MappingRole: true
+define role ZC_SRT_Comment {
+  grant
+    select
+      on
+        ZC_SRT_Comment
+          where
+            inheriting conditions from entity ZR_SRT_Comment default true;
+}

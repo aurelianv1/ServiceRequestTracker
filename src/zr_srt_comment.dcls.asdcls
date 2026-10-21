@@ -1,0 +1,13 @@
+@EndUserText.label: 'Access Control for ZR_SRT_Comment'
+@MappingRole: true
+define role ZR_SRT_Comment {
+  // Every business user of the app may read all service requests.
+  // Row-level restrictions (e.g. by team or plant) would be added here
+  // with an aspect pfcg_auth condition on a custom authorization object.
+  grant
+    select
+      on
+        ZR_SRT_Comment
+          where
+            true;
+}

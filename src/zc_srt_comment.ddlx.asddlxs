@@ -1,0 +1,38 @@
+@Metadata.layer: #CORE
+
+@UI: { headerInfo: { typeName:       'Comment',
+                     typeNamePlural: 'Comments',
+                     title:          { type: #STANDARD, value: 'CreatedBy' } },
+       presentationVariant: [{ sortOrder:      [{ by: 'CreatedAt', direction: #DESC }],
+                               visualizations: [{ type: #AS_LINEITEM }] }] }
+
+annotate entity ZC_SRT_Comment with
+{
+  @UI.facet: [ { id:       'Comment',
+                 purpose:  #STANDARD,
+                 type:     #IDENTIFICATION_REFERENCE,
+                 label:    'Comment',
+                 position: 10 } ]
+
+  @UI.hidden: true
+  CommentUUID;
+
+  @UI.hidden: true
+  RequestUUID;
+
+  @UI: { lineItem:       [ { position: 10, importance: #HIGH } ],
+         identification: [ { position: 10 } ],
+         multiLineText:  true }
+  CommentText;
+
+  @UI: { lineItem:       [ { position: 20, importance: #MEDIUM } ],
+         identification: [ { position: 20 } ] }
+  CreatedBy;
+
+  @UI: { lineItem:       [ { position: 30, importance: #MEDIUM } ],
+         identification: [ { position: 30 } ] }
+  CreatedAt;
+
+  @UI.hidden: true
+  LocalLastChangedAt;
+}

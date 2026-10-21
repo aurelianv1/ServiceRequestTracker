@@ -1,0 +1,138 @@
+@Metadata.layer: #CORE
+
+@UI: { headerInfo: { typeName:       'Service Request',
+                     typeNamePlural: 'Service Requests',
+                     title:          { type: #STANDARD, value: 'Title' },
+                     description:    { type: #STANDARD, value: 'RequestID' } },
+       presentationVariant: [{ sortOrder:      [{ by: 'RequestID', direction: #DESC }],
+                               visualizations: [{ type: #AS_LINEITEM }] }] }
+
+annotate entity ZC_SRT_Request with
+{
+  @UI.facet: [ { id:              'HeaderPriority',
+                 purpose:         #HEADER,
+                 type:            #DATAPOINT_REFERENCE,
+                 targetQualifier: 'PriorityData',
+                 position:        10 },
+               { id:              'HeaderStatus',
+                 purpose:         #HEADER,
+                 type:            #DATAPOINT_REFERENCE,
+                 targetQualifier: 'StatusData',
+                 position:        20 },
+               { id:              'HeaderDueDate',
+                 purpose:         #HEADER,
+                 type:            #DATAPOINT_REFERENCE,
+                 targetQualifier: 'DueDateData',
+                 position:        30 },
+
+               { id:              'GeneralInformation',
+                 purpose:         #STANDARD,
+                 type:            #COLLECTION,
+                 label:           'General Information',
+                 position:        10 },
+               { id:              'Request',
+                 parentId:        'GeneralInformation',
+                 purpose:         #STANDARD,
+                 type:            #FIELDGROUP_REFERENCE,
+                 targetQualifier: 'Request',
+                 label:           'Request',
+                 position:        10 },
+               { id:              'Processing',
+                 parentId:        'GeneralInformation',
+                 purpose:         #STANDARD,
+                 type:            #FIELDGROUP_REFERENCE,
+                 targetQualifier: 'Processing',
+                 label:           'Processing',
+                 position:        20 },
+               { id:              'Administration',
+                 parentId:        'GeneralInformation',
+                 purpose:         #STANDARD,
+                 type:            #FIELDGROUP_REFERENCE,
+                 targetQualifier: 'Administration',
+                 label:           'Administrative Data',
+                 position:        30 },
+
+               { id:              'Comments',
+                 purpose:         #STANDARD,
+                 type:            #LINEITEM_REFERENCE,
+                 label:           'Comments',
+                 targetElement:   '_Comment',
+                 position:        20 } ]
+
+  @UI.hidden: true
+  RequestUUID;
+
+  @UI: { lineItem:       [ { position: 10, importance: #HIGH },
+                           { type: #FOR_ACTION, dataAction: 'assignToMe',      label: 'Assign to Me' },
+                           { type: #FOR_ACTION, dataAction: 'escalateRequest', label: 'Escalate' },
+                           { type: #FOR_ACTION, dataAction: 'closeRequest',    label: 'Close' },
+                           { type: #FOR_ACTION, dataAction: 'reopenRequest',   label: 'Reopen' } ],
+         identification: [ { type: #FOR_ACTION, dataAction: 'assignToMe',      label: 'Assign to Me' },
+                           { type: #FOR_ACTION, dataAction: 'escalateRequest', label: 'Escalate' },
+                           { type: #FOR_ACTION, dataAction: 'closeRequest',    label: 'Close' },
+                           { type: #FOR_ACTION, dataAction: 'reopenRequest',   label: 'Reopen' } ],
+         selectionField: [ { position: 10 } ],
+         fieldGroup:     [ { qualifier: 'Request', position: 10 } ] }
+  RequestID;
+
+  @UI: { lineItem:       [ { position: 20, importance: #HIGH } ],
+         fieldGroup:     [ { qualifier: 'Request', position: 20 } ] }
+  Title;
+
+  @UI: { fieldGroup:     [ { qualifier: 'Request', position: 30 } ],
+         multiLineText:  true }
+  Description;
+
+  @UI: { lineItem:       [ { position: 30, importance: #HIGH, criticality: 'PriorityCriticality' } ],
+         selectionField: [ { position: 30 } ],
+         fieldGroup:     [ { qualifier: 'Processing', position: 10, criticality: 'PriorityCriticality' } ],
+         dataPoint:      { qualifier: 'PriorityData', title: 'Priority', criticality: 'PriorityCriticality' },
+         textArrangement: #TEXT_ONLY }
+  Priority;
+
+  @UI: { lineItem:       [ { position: 40, importance: #HIGH, criticality: 'StatusCriticality' } ],
+         selectionField: [ { position: 20 } ],
+         fieldGroup:     [ { qualifier: 'Processing', position: 20, criticality: 'StatusCriticality' } ],
+         dataPoint:      { qualifier: 'StatusData', title: 'Status', criticality: 'StatusCriticality' },
+         textArrangement: #TEXT_ONLY }
+  Status;
+
+  @UI: { lineItem:       [ { position: 50, importance: #MEDIUM } ],
+         selectionField: [ { position: 40 } ],
+         fieldGroup:     [ { qualifier: 'Processing', position: 30 } ] }
+  AssignedTo;
+
+  @UI: { lineItem:       [ { position: 60, importance: #HIGH } ],
+         selectionField: [ { position: 50 } ],
+         fieldGroup:     [ { qualifier: 'Processing', position: 40 } ],
+         dataPoint:      { qualifier: 'DueDateData', title: 'Due Date' } }
+  DueDate;
+
+  @UI: { lineItem:       [ { position: 70, importance: #LOW } ],
+         fieldGroup:     [ { qualifier: 'Administration', position: 10 } ] }
+  CreatedBy;
+
+  @UI: { fieldGroup:     [ { qualifier: 'Administration', position: 20 } ] }
+  CreatedAt;
+
+  @UI: { fieldGroup:     [ { qualifier: 'Administration', position: 30 } ] }
+  LastChangedBy;
+
+  @UI: { fieldGroup:     [ { qualifier: 'Administration', position: 40 } ] }
+  LastChangedAt;
+
+  @UI.hidden: true
+  PriorityText;
+
+  @UI.hidden: true
+  PriorityCriticality;
+
+  @UI.hidden: true
+  StatusText;
+
+  @UI.hidden: true
+  StatusCriticality;
+
+  @UI.hidden: true
+  LocalLastChangedAt;
+}
