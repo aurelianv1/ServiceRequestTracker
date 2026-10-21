@@ -103,8 +103,9 @@ Tables: ZSRT_REQUEST, ZSRT_COMMENT (active), ZSRT_D_REQUEST, ZSRT_D_COMMENT (dra
 ## Installation
 
 You need an ABAP Cloud system, for example the free **SAP BTP Trial – ABAP environment** or the **ABAP Cloud Developer Trial**.
+The app was installed and tested this way on the SAP BTP ABAP environment trial.
 
-1. In ABAP Development Tools create a package, e.g. `ZSRT` (in the trial: below `ZLOCAL`).
+1. In ABAP Development Tools create a package, e.g. `ZSRT` (in the trial: below `ZLOCAL`; the package name is free, object names are not).
 2. Open the view **abapGit Repositories**, click **Link New abapGit Repository** and enter
    `https://github.com/aurelianv1/ServiceRequestTracker.git`, target package `ZSRT`.
 3. **Pull** the repository and **activate** all inactive objects (Ctrl+Shift+F3).
@@ -122,4 +123,20 @@ Right-click the package → **Run As → ABAP Unit Test** (Ctrl+Shift+F10).
 
 ## Screenshots
 
-_To be added after the first deployment: list report, object page, draft editing, escalate action._
+Taken from the Fiori elements preview of `ZUI_SRT_REQUEST_O4` on the SAP BTP ABAP environment trial.
+
+**List report** – filters with value help, priority and status with criticality, demo data from `ZCL_SRT_DATA_GENERATOR`
+
+![List report](docs/screenshots/list-report.png)
+
+**Object page in draft** – header data points, field groups, comments facet; changing the due date recalculates the priority immediately (side effect)
+
+![Object page in draft mode](docs/screenshots/object-page-draft.png)
+
+**Actions with feature control** – *Reopen* is disabled because the request is not closed
+
+![Actions on a request](docs/screenshots/actions-context-menu.png)
+
+**After *Escalate*** – request 2 switched to status *Escalated* and priority *Critical*
+
+![Escalated request](docs/screenshots/escalated.png)
